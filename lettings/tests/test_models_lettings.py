@@ -1,7 +1,5 @@
 import pytest
-from django.contrib.auth.models import User
-from oc_lettings_site.models import Address, Letting, Profile
-
+from lettings.models import Address, Letting
 
 @pytest.mark.django_db
 def test_address_str():
@@ -15,7 +13,6 @@ def test_address_str():
     )
     assert str(address) == "42 Elm Street"
 
-
 @pytest.mark.django_db
 def test_letting_str():
     address = Address.objects.create(
@@ -28,10 +25,3 @@ def test_letting_str():
     )
     letting = Letting.objects.create(title="Sherlock's Home", address=address)
     assert str(letting) == "Sherlock's Home"
-
-
-@pytest.mark.django_db
-def test_profile_str():
-    user = User.objects.create(username="watson")
-    profile = Profile.objects.create(user=user, favorite_city="Paris")
-    assert str(profile) == "watson"
