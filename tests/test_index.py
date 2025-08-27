@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 
+
 @pytest.mark.django_db
 def test_index_view(client):
     response = client.get(reverse("index"))

@@ -1,6 +1,7 @@
 import pytest
 from lettings.models import Address, Letting
 
+
 @pytest.mark.django_db
 def test_address_str():
     address = Address.objects.create(
@@ -12,6 +13,7 @@ def test_address_str():
         country_iso_code="USA"
     )
     assert str(address) == "42 Elm Street"
+
 
 @pytest.mark.django_db
 def test_letting_str():
