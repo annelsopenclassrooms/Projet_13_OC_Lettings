@@ -1,3 +1,6 @@
-# from django.contrib import admin
+from django.contrib import admin
+from lettings.models import Letting, Address
+from profiles.models import Profile
 
-# Register your models here.
+admin.site.register(Letting)
+admin.site.register(Address)
