@@ -1,6 +1,7 @@
 from django.contrib import admin
 from lettings.models import Letting, Address
-from profiles.models import Profile
+
+"""Register Letting and Address models in the Django admin."""
 
 admin.site.register(Letting)
 admin.site.register(Address)
