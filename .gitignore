@@ -4,3 +4,4 @@ venv
 perso/
 .coverage
 env/
+.env

@@ -1,6 +1,27 @@
 import os
 
 from pathlib import Path
+from dotenv import load_dotenv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+
+# Load .env
+load_dotenv()
+
+# Get Sentry DSN from environment variable
+SENTRY_DSN = os.environ.get("SENTRY_DSN")
+DEBUG = os.getenv("DEBUG") == "True"
+
+print(f"SENTRY_DSN={SENTRY_DSN}")
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        send_default_pii=True,
+    )
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
