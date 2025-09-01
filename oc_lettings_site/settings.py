@@ -134,3 +134,24 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static", ]
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+        "sentry": {
+            "class": "sentry_sdk.integrations.logging.EventHandler",
+            "level": "ERROR",
+        },
+    },
+    "root": {
+        "handlers": ["console", "sentry"],
+        "level": "INFO",
+    },
+    "loggers": {
+        "django": {"handlers": ["console", "sentry"], "level": "WARNING", "propagate": True},
+        "lettings": {"handlers": ["console", "sentry"], "level": "INFO", "propagate": False},
+        "profiles": {"handlers": ["console", "sentry"], "level": "INFO", "propagate": False},
+    },
+}
