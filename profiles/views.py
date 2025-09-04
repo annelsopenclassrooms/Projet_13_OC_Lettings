@@ -1,18 +1,34 @@
-from django.shortcuts import render
+import sentry_sdk
+from django.shortcuts import render, get_object_or_404
 from .models import Profile
 
+"""Views for the profiles app with Sentry integration."""
 
-# Create your views here.
 
-def index(request):  # profils_index before
-    """Display a list of all profiles."""
+def index(request):  # profiles_index before
+    """
+    Display all profiles.
+
+    Fetches all profiles from the database and renders them in the index template.
+    """
     profiles_list = Profile.objects.all()
     context = {'profiles_list': profiles_list}
     return render(request, 'profiles/index.html', context)
 
 
 def profile(request, username):
-    """Display the profile for a specific user by username."""
-    profile = Profile.objects.get(user__username=username)
-    context = {'profile': profile}
-    return render(request, 'profiles/profile.html', context)
+    """
+    Display a specific user's profile.
+
+    Fetches a profile by the associated user's username and renders it.
+    If the profile does not exist, a 404 error page is returned.
+    Any unexpected errors are reported to Sentry.
+    """
+    try:
+        profile_obj = get_object_or_404(Profile, user__username=username)
+        context = {'profile': profile_obj}
+        return render(request, 'profiles/profile.html', context)
+    except Exception as e:
+        # Report unexpected errors to Sentry
+        sentry_sdk.capture_exception(e)
+        raise
