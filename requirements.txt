@@ -4,6 +4,7 @@ Django==3.0
 dotenv==0.9.9
 entrypoints==0.3
 flake8==3.7.0
+gunicorn==23.0.0
 iniconfig==2.1.0
 mccabe==0.6.1
 packaging==25.0
