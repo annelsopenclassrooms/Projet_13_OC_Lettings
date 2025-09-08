@@ -1,5 +1,6 @@
 asgiref==3.9.1
 certifi==2025.8.3
+coverage==7.10.6
 Django==3.0
 dotenv==0.9.9
 entrypoints==0.3
@@ -13,10 +14,12 @@ pycodestyle==2.5.0
 pyflakes==2.1.1
 Pygments==2.19.2
 pytest==8.4.2
+pytest-cov==6.3.0
 pytest-django==3.9.0
 python-dotenv==1.1.1
 pytz==2025.2
 sentry-sdk==2.37.0
 setuptools==80.9.0
+six==1.17.0
 sqlparse==0.5.3
 urllib3==2.5.0
