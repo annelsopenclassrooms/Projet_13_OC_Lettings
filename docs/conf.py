@@ -1,49 +1,30 @@
-# Configuration file for the Sphinx documentation builder.
 import os
 import sys
 import django
 
-# -- Path setup --------------------------------------------------------------
+# Chemin absolu vers la racine du projet (où se trouve manage.py)
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
 
-# Add project root (where manage.py is) to sys.path
-#sys.path.insert(0, os.path.abspath('..'))
+# Configuration Django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "oc_lettings_site.settings")
+django.setup()
 
-# -- Django setup ------------------------------------------------------------
+# -- Project information -----------------------------------------------------
+project = 'OC Lettings Site'
+copyright = '2025, Anne LS'
+author = 'Anne LS'
+release = '1.0'
 
-#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "oc_lettings_site.settings")
-
-
-#django.setup()
-# -- Project information
-
-project = 'OC Lettings'
-#copyright = '2021, Graziella'
-author = 'Anne Le Ster'
-
-release = '0.1'
-version = '0.1.0'
-
-# -- General configuration
-
+# -- General configuration ---------------------------------------------------
 extensions = [
-    'sphinx.ext.duration',
-    'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.intersphinx',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.napoleon',
 ]
-
-intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-}
-intersphinx_disabled_domains = ['std']
-
 templates_path = ['_templates']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-# -- Options for HTML output
-
+# -- Options for HTML output -------------------------------------------------
 html_theme = 'sphinx_rtd_theme'
-
-# -- Options for EPUB output
-epub_show_urls = 'footnote'
+html_static_path = ['_static']
