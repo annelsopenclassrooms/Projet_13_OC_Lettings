@@ -14,8 +14,12 @@ idna==3.10
 imagesize==1.4.1
 iniconfig==2.1.0
 Jinja2==3.1.6
+markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 mccabe==0.6.1
+mdit-py-plugins==0.5.0
+mdurl==0.1.2
+myst-parser==4.0.1
 packaging==25.0
 pluggy==1.6.0
 pycodestyle==2.5.0
@@ -26,6 +30,7 @@ pytest-cov==6.3.0
 pytest-django==3.9.0
 python-dotenv==1.1.1
 pytz==2025.2
+PyYAML==6.0.2
 requests==2.32.5
 roman-numerals-py==3.1.0
 sentry-sdk==2.37.0
@@ -33,9 +38,11 @@ setuptools==80.9.0
 six==1.17.0
 snowballstemmer==3.0.1
 Sphinx==8.2.3
+sphinx-rtd-theme==3.0.2
 sphinxcontrib-applehelp==2.0.0
 sphinxcontrib-devhelp==2.0.0
 sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-jquery==4.1
 sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==2.0.0
 sphinxcontrib-serializinghtml==2.0.0
