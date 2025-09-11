@@ -1,0 +1,44 @@
+# .readthedocs.yaml
+version: 2  # RTD configuration version
+
+# Build environment
+build:
+  os: ubuntu-22.04  # Operating system
+  tools:
+    python: "3.12"  # Python version
+
+# Python environment setup
+python:
+  install:
+    # Install the project itself
+    - method: pip
+      path: .
+    # Install dependencies from requirements.txt
+    - requirements: requirements.txt
+    # Optional: install extra dev dependencies if defined
+    - extra_requirements:
+        - dev
+
+# Sphinx configuration
+sphinx:
+  # Path to the Sphinx configuration file
+  configuration: docs/conf.py
+  # Optionally, set builder format
+  builder: html
+
+# Optionally, ignore files/folders from the build
+formats:
+  - html
+
+# Environment variables to configure Django properly
+# Avoid import errors when Sphinx imports Django models
+env:
+  DJANGO_SETTINGS_MODULE: "oc_lettings_site.settings"
+  PYTHONPATH: "../"  # Make sure Django project root is in Python path
+
+# Build commands (optional, for advanced setup)
+# Can be used to run custom commands before building docs
+#build:
+#  commands:
+#    - python manage.py collectstatic --noinput
+#    - sphinx-build -b html docs/ docs/_build/html
