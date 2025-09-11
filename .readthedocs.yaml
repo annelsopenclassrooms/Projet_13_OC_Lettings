@@ -9,6 +9,10 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.12"
+  # Variables d'environnement définies ici
+  env:
+    DJANGO_SETTINGS_MODULE: "oc_lettings_site.settings"
+    PYTHONPATH: "/checkouts"
 
 # -----------------------------
 # Python environment setup
@@ -33,11 +37,3 @@ sphinx:
 # -----------------------------
 formats:
   - htmlzip
-
-# -----------------------------
-# Environment variables
-# -----------------------------
-environment:
-  variables:
-    DJANGO_SETTINGS_MODULE: "oc_lettings_site.settings"
-    PYTHONPATH: "/checkouts"
