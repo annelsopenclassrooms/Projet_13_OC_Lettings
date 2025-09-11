@@ -1,10 +1,23 @@
 # Configuration file for the Sphinx documentation builder.
+import os
+import sys
 
+# -- Path setup --------------------------------------------------------------
+
+# Add project root (where manage.py is) to sys.path
+sys.path.insert(0, os.path.abspath('..'))
+
+# -- Django setup ------------------------------------------------------------
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "oc_lettings_site.settings")
+
+import django
+django.setup()
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'OC Lettings'
+#copyright = '2021, Graziella'
+author = 'Anne Le Ster'
 
 release = '0.1'
 version = '0.1.0'
