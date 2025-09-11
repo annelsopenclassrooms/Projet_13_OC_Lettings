@@ -23,22 +23,20 @@ python:
 sphinx:
   # Path to the Sphinx configuration file
   configuration: docs/conf.py
-  # Optionally, set builder format
-  builder: html
+  # Optionally, set builder format (default is html)
+  builder: "html"
 
-# Optionally, ignore files/folders from the build
+# Output formats
 formats:
-  - html
+  - "htmlzip"  # Must be one of htmlzip, pdf, epub
 
 # Environment variables to configure Django properly
-# Avoid import errors when Sphinx imports Django models
 env:
   DJANGO_SETTINGS_MODULE: "oc_lettings_site.settings"
-  PYTHONPATH: "../"  # Make sure Django project root is in Python path
+  PYTHONPATH: "../"  # Ensure Django project root is in Python path
 
-# Build commands (optional, for advanced setup)
-# Can be used to run custom commands before building docs
-#build:
-#  commands:
-#    - python manage.py collectstatic --noinput
-#    - sphinx-build -b html docs/ docs/_build/html
+# Optional build commands (advanced setup)
+# build:
+#   commands:
+#     - python manage.py collectstatic --noinput
+#     - sphinx-build -b html docs/ docs/_build/html
