@@ -10,33 +10,21 @@ build:
 # Python environment setup
 python:
   install:
-    # Install the project itself
-    - method: pip
-      path: .
     # Install dependencies from requirements.txt
     - requirements: requirements.txt
-    # Optional: install extra dev dependencies if defined
-    - extra_requirements:
-        - dev
+    # Install the project itself
+    - path: "."  # this installs your Django project as editable
 
 # Sphinx configuration
 sphinx:
-  # Path to the Sphinx configuration file
   configuration: docs/conf.py
-  # Optionally, set builder format (default is html)
   builder: "html"
 
 # Output formats
 formats:
-  - "htmlzip"  # Must be one of htmlzip, pdf, epub
+  - "htmlzip"  # allowed formats: htmlzip, pdf, epub
 
 # Environment variables to configure Django properly
 env:
   DJANGO_SETTINGS_MODULE: "oc_lettings_site.settings"
   PYTHONPATH: "../"  # Ensure Django project root is in Python path
-
-# Optional build commands (advanced setup)
-# build:
-#   commands:
-#     - python manage.py collectstatic --noinput
-#     - sphinx-build -b html docs/ docs/_build/html
