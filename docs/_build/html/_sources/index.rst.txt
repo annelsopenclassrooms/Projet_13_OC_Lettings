@@ -7,8 +7,8 @@ Welcome to the documentation of the Orange County Lettings project.
    :maxdepth: 2
    :caption: Contents:
 
+
+   installation
    usage
    modules
-.. include:: ../README.md
-   :parser: myst_parser.sphinx_
-   :start-after: <!-- index.rst content start -->
+   deployment

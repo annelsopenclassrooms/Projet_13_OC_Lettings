@@ -2,44 +2,45 @@
 
 import os
 import sys
-import django
 
 # -- Path setup --------------------------------------------------------------
 
-# Add project root to sys.path (adjust if docs/ is not directly under project root)
+# Add project root (where manage.py is) to sys.path
 sys.path.insert(0, os.path.abspath('..'))
 
-# Set the Django settings module
+# -- Django setup ------------------------------------------------------------
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "oc_lettings_site.settings")
+
+import django
 django.setup()
 
 # -- Project information -----------------------------------------------------
 
-project = 'OC Lettings'
-copyright = '2025, Anne Le Ster'
-author = 'Anne Le Ster'
+project = "OC Lettings"
+copyright = "2025, Anne Le Ster"
+author = "Anne Le Ster"
 
 # -- General configuration ---------------------------------------------------
 
-# Sphinx extensions
+# Extensions used by Sphinx
 extensions = [
     "sphinx.ext.autodoc",      # auto-generate docs from docstrings
     "sphinx.ext.napoleon",     # support Google/NumPy style docstrings
+    "sphinx.ext.viewcode",     # add links to highlighted source code
     "myst_parser",             # support Markdown files
-    "sphinx.ext.viewcode",     # add links to source code
 ]
 
-# Templates path
-templates_path = ['_templates']
+# Paths for templates
+templates_path = ["_templates"]
 
-# Exclude build and system files
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+# Ignore these patterns
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output -------------------------------------------------
 
-# HTML theme
 html_theme = "sphinx_rtd_theme"  # Read the Docs theme
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # -- Napoleon settings -------------------------------------------------------
 
@@ -54,8 +55,8 @@ napoleon_include_special_with_doc = True
 autoclass_content = "class"
 autodoc_member_order = "bysource"
 
-# -- MyST Parser settings ---------------------------------------------------
+# -- MyST Parser settings ----------------------------------------------------
 
 myst_enable_extensions = [
-    "colon_fence",  # enable ::: fenced blocks if needed
+    "colon_fence",  # enable ::: fenced blocks
 ]
