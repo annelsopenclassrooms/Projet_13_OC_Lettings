@@ -1,62 +1,35 @@
 # Configuration file for the Sphinx documentation builder.
 
-import os
-import sys
+# -- Project information
 
-# -- Path setup --------------------------------------------------------------
+project = 'Lumache'
+copyright = '2021, Graziella'
+author = 'Graziella'
 
-# Add project root (where manage.py is) to sys.path
-sys.path.insert(0, os.path.abspath('..'))
+release = '0.1'
+version = '0.1.0'
 
-# -- Django setup ------------------------------------------------------------
+# -- General configuration
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "oc_lettings_site.settings")
-
-import django
-django.setup()
-
-# -- Project information -----------------------------------------------------
-
-project = "OC Lettings"
-copyright = "2025, Anne Le Ster"
-author = "Anne Le Ster"
-
-# -- General configuration ---------------------------------------------------
-
-# Extensions used by Sphinx
 extensions = [
-    "sphinx.ext.autodoc",      # auto-generate docs from docstrings
-    "sphinx.ext.napoleon",     # support Google/NumPy style docstrings
-    "sphinx.ext.viewcode",     # add links to highlighted source code
-    "myst_parser",             # support Markdown files
+    'sphinx.ext.duration',
+    'sphinx.ext.doctest',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.intersphinx',
 ]
 
-# Paths for templates
-templates_path = ["_templates"]
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
+intersphinx_disabled_domains = ['std']
 
-# Ignore these patterns
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+templates_path = ['_templates']
 
-# -- Options for HTML output -------------------------------------------------
+# -- Options for HTML output
 
-html_theme = "sphinx_rtd_theme"  # Read the Docs theme
-html_static_path = ["_static"]
+html_theme = 'sphinx_rtd_theme'
 
-# -- Napoleon settings -------------------------------------------------------
-
-napoleon_google_docstring = True
-napoleon_numpy_docstring = True
-napoleon_include_init_with_doc = True
-napoleon_include_private_with_doc = False
-napoleon_include_special_with_doc = True
-
-# -- Autodoc settings --------------------------------------------------------
-
-autoclass_content = "class"
-autodoc_member_order = "bysource"
-
-# -- MyST Parser settings ----------------------------------------------------
-
-myst_enable_extensions = [
-    "colon_fence",  # enable ::: fenced blocks
-]
+# -- Options for EPUB output
+epub_show_urls = 'footnote'
