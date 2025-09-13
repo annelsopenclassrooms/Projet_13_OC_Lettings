@@ -55,7 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="technologies.html">Technologies Used</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 </ul>
 
@@ -86,35 +86,37 @@
   <section id="quickstart-guide">
 <h1>Quickstart Guide<a class="headerlink" href="#quickstart-guide" title="Link to this heading"></a></h1>
 <ol class="arabic">
-<li><p>Start the development server:</p>
-<p>cd /path/to/Python-OC-Lettings-FR
-source venv/bin/activate
-python manage.py runserver</p>
+<li><p><strong>Start the development server:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/Python-OC-Lettings-FR
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+python<span class="w"> </span>manage.py<span class="w"> </span>runserver
+</pre></div>
+</div>
 </li>
-<li><p>Open your browser at: <a class="reference external" href="http://localhost:8000">http://localhost:8000</a></p></li>
-<li><p>Confirm the website is working and navigation is possible.
+<li><p><strong>Open your browser at:</strong> <code class="docutils literal notranslate"><span class="pre">http://localhost:8000</span></code></p></li>
+<li><p><strong>Confirm the website is working and navigation is possible.</strong>
 You should see several profiles and lettings.</p></li>
 </ol>
 <section id="admin-panel">
 <h2>Admin Panel<a class="headerlink" href="#admin-panel" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>Visit: <a class="reference external" href="http://localhost:8000/admin">http://localhost:8000/admin</a></p></li>
-<li><p>Login:
-Username: <code class="docutils literal notranslate"><span class="pre">admin</span></code>
-Password: <code class="docutils literal notranslate"><span class="pre">Abc1234!</span></code></p></li>
+<li><p><strong>Visit:</strong> <code class="docutils literal notranslate"><span class="pre">http://localhost:8000/admin</span></code></p></li>
+<li><p><strong>Login:</strong>
+- Username: <code class="docutils literal notranslate"><span class="pre">admin</span></code>
+- Password: <code class="docutils literal notranslate"><span class="pre">Abc1234!</span></code></p></li>
 </ul>
 </section>
 <section id="linting">
 <h2>Linting<a class="headerlink" href="#linting" title="Link to this heading"></a></h2>
-<p>Run Flake8 to check code style:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flake8</span>
+<p><strong>Run Flake8 to check code style:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>flake8
 </pre></div>
 </div>
 </section>
 <section id="unit-tests">
 <h2>Unit Tests<a class="headerlink" href="#unit-tests" title="Link to this heading"></a></h2>
-<p>Run pytest to execute the test suite:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span>
+<p><strong>Run pytest to execute the test suite:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest
 </pre></div>
 </div>
 </section>

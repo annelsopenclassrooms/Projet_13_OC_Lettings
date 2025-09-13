@@ -10,14 +10,15 @@ Prerequisites
 
 On macOS / Linux
 ----------------
-1. Clone the repository::
+
+1. **Clone the repository:**
 
    .. code-block:: bash
 
       cd /path/to/put/project/in
       git clone https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.git
 
-2. Create and activate a virtual environment::
+2. **Create and activate a virtual environment:**
 
    .. code-block:: bash
 
@@ -32,7 +33,7 @@ On macOS / Linux
 
          apt-get install python3-venv
 
-3. Install dependencies::
+3. **Install dependencies:**
 
    .. code-block:: bash
 
@@ -40,14 +41,15 @@ On macOS / Linux
 
 On Windows
 ----------
-Using PowerShell:
 
-.. code-block:: powershell
+- **Using PowerShell:**
 
-   .\venv\Scripts\Activate.ps1
+  .. code-block:: powershell
 
-Replace ``which <my-command>`` with:
+     .\venv\Scripts\Activate.ps1
 
-.. code-block:: powershell
+- **Replace** ``which <my-command>`` **with:**
 
-   (Get-Command <my-command>).Path
+  .. code-block:: powershell
+
+     (Get-Command <my-command>).Path

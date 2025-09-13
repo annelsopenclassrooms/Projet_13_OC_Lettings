@@ -6,7 +6,8 @@ This section describes the structure of the database and the main data models us
 Models
 ------
 
-### Address (lettings app)
+Address (lettings app)
+~~~~~~~~~~~~~~~~~~~~~~
 
 Represents a physical address.
 
@@ -17,49 +18,59 @@ Represents a physical address.
 - **zip_code**: Positive integer, max value 99999.
 - **country_iso_code**: CharField, exactly 3 characters.
 
-__String representation__: Returns the address in the format `"{number} {street}"`.
+**String representation**: Returns the address in the format ``"{number} {street}"``.
 
-### Letting (lettings app)
+Letting (lettings app)
+~~~~~~~~~~~~~~~~~~~~~~
 
 Represents a letting with a title and an associated address.
 
 - **title**: CharField, max length 256.
-- **address**: One-to-one relationship with `Address`. Deletes the address if the letting is deleted.
+- **address**: One-to-one relationship with ``Address``. Deletes the address if the letting is deleted.
 
-__String representation__: Returns the letting title.
+**String representation**: Returns the letting title.
 
-### Profile (profiles app)
+Profile (profiles app)
+~~~~~~~~~~~~~~~~~~~~~~
 
 Represents a user profile with an optional favorite city.
 
-- **user**: One-to-one relationship with Django's built-in `User` model.
+- **user**: One-to-one relationship with Django's built-in ``User`` model.
 - **favorite_city**: Optional CharField, max length 64.
 
-__String representation__: Returns the username of the associated user.
-
+**String representation**: Returns the username of the associated user.
 
 Local Database Access
 ---------------------
 
+1. **Open a SQLite session:**
 
-1. Open a SQLite session::
+   .. code-block:: bash
 
-   sqlite3 oc-lettings-site.sqlite3
+      sqlite3 oc-lettings-site.sqlite3
 
-2. Show tables::
+2. **Show tables:**
 
-   .tables
+   .. code-block:: sql
 
-3. Show table columns::
+      .tables
 
-   pragma table_info(Python-OC-Lettings-FR_profile);
+3. **Show table columns:**
 
-4. Example query::
+   .. code-block:: sql
 
-   select user_id, favorite_city
-   from Python-OC-Lettings-FR_profile
-   where favorite_city like 'B%';
+      pragma table_info(Python-OC-Lettings-FR_profile);
 
-5. Quit::
+4. **Example query:**
 
-   .quit
+   .. code-block:: sql
+
+      select user_id, favorite_city
+      from Python-OC-Lettings-FR_profile
+      where favorite_city like 'B%';
+
+5. **Quit:**
+
+   .. code-block:: sql
+
+      .quit

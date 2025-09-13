@@ -1,35 +1,41 @@
 Quickstart Guide
 ================
 
-1. Start the development server::
+1. **Start the development server:**
 
-   cd /path/to/Python-OC-Lettings-FR
-   source venv/bin/activate
-   python manage.py runserver
+   .. code-block:: bash
 
-2. Open your browser at: http://localhost:8000
+      cd /path/to/Python-OC-Lettings-FR
+      source venv/bin/activate
+      python manage.py runserver
 
-3. Confirm the website is working and navigation is possible.
+2. **Open your browser at:** ``http://localhost:8000``
+
+3. **Confirm the website is working and navigation is possible.**
    You should see several profiles and lettings.
 
 Admin Panel
 -----------
 
-- Visit: http://localhost:8000/admin
-- Login:  
-  Username: ``admin``  
-  Password: ``Abc1234!``
+- **Visit:** ``http://localhost:8000/admin``
+- **Login:**
+  - Username: ``admin``
+  - Password: ``Abc1234!``
 
 Linting
 -------
 
-Run Flake8 to check code style::
+**Run Flake8 to check code style:**
+
+.. code-block:: bash
 
    flake8
 
 Unit Tests
 ----------
 
-Run pytest to execute the test suite::
+**Run pytest to execute the test suite:**
+
+.. code-block:: bash
 
    pytest

@@ -49,12 +49,17 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="technologies.html">Technologies Used</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Database Structure</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#models">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#models">Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#address-lettings-app">Address (lettings app)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#letting-lettings-app">Letting (lettings app)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#profile-profiles-app">Profile (profiles app)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#local-database-access">Local Database Access</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 </ul>
 
@@ -87,7 +92,8 @@
 <p>This section describes the structure of the database and the main data models used in the project.</p>
 <section id="models">
 <h2>Models<a class="headerlink" href="#models" title="Link to this heading"></a></h2>
-<p>### Address (lettings app)</p>
+<section id="address-lettings-app">
+<h3>Address (lettings app)<a class="headerlink" href="#address-lettings-app" title="Link to this heading"></a></h3>
 <p>Represents a physical address.</p>
 <ul class="simple">
 <li><p><strong>number</strong>: Positive integer, max value 9999.</p></li>
@@ -97,43 +103,54 @@
 <li><p><strong>zip_code</strong>: Positive integer, max value 99999.</p></li>
 <li><p><strong>country_iso_code</strong>: CharField, exactly 3 characters.</p></li>
 </ul>
-<p>__String <a href="#id1"><span class="problematic" id="id2">representation__</span></a>: Returns the address in the format <cite>“{number} {street}”</cite>.</p>
-<p>### Letting (lettings app)</p>
+<p><strong>String representation</strong>: Returns the address in the format <code class="docutils literal notranslate"><span class="pre">&quot;{number}</span> <span class="pre">{street}&quot;</span></code>.</p>
+</section>
+<section id="letting-lettings-app">
+<h3>Letting (lettings app)<a class="headerlink" href="#letting-lettings-app" title="Link to this heading"></a></h3>
 <p>Represents a letting with a title and an associated address.</p>
 <ul class="simple">
 <li><p><strong>title</strong>: CharField, max length 256.</p></li>
-<li><p><strong>address</strong>: One-to-one relationship with <cite>Address</cite>. Deletes the address if the letting is deleted.</p></li>
+<li><p><strong>address</strong>: One-to-one relationship with <code class="docutils literal notranslate"><span class="pre">Address</span></code>. Deletes the address if the letting is deleted.</p></li>
 </ul>
-<p>__String <a href="#id1"><span class="problematic" id="id3">representation__</span></a>: Returns the letting title.</p>
-<p>### Profile (profiles app)</p>
+<p><strong>String representation</strong>: Returns the letting title.</p>
+</section>
+<section id="profile-profiles-app">
+<h3>Profile (profiles app)<a class="headerlink" href="#profile-profiles-app" title="Link to this heading"></a></h3>
 <p>Represents a user profile with an optional favorite city.</p>
 <ul class="simple">
-<li><p><strong>user</strong>: One-to-one relationship with Django’s built-in <cite>User</cite> model.</p></li>
+<li><p><strong>user</strong>: One-to-one relationship with Django’s built-in <code class="docutils literal notranslate"><span class="pre">User</span></code> model.</p></li>
 <li><p><strong>favorite_city</strong>: Optional CharField, max length 64.</p></li>
 </ul>
-<p>__String <a href="#id1"><span class="problematic" id="id4">representation__</span></a>: Returns the username of the associated user.</p>
+<p><strong>String representation</strong>: Returns the username of the associated user.</p>
+</section>
 </section>
 <section id="local-database-access">
 <h2>Local Database Access<a class="headerlink" href="#local-database-access" title="Link to this heading"></a></h2>
 <ol class="arabic">
-<li><p>Open a SQLite session:</p>
-<p>sqlite3 oc-lettings-site.sqlite3</p>
-</li>
-<li><p>Show tables:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span><span class="n">tables</span>
+<li><p><strong>Open a SQLite session:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sqlite3<span class="w"> </span>oc-lettings-site.sqlite3
 </pre></div>
 </div>
 </li>
-<li><p>Show table columns:</p>
-<p>pragma table_info(Python-OC-Lettings-FR_profile);</p>
+<li><p><strong>Show tables:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">tables</span>
+</pre></div>
+</div>
 </li>
-<li><p>Example query:</p>
-<p>select user_id, favorite_city
-from Python-OC-Lettings-FR_profile
-where favorite_city like ‘B%’;</p>
+<li><p><strong>Show table columns:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="n">pragma</span><span class="w"> </span><span class="n">table_info</span><span class="p">(</span><span class="n">Python</span><span class="o">-</span><span class="n">OC</span><span class="o">-</span><span class="n">Lettings</span><span class="o">-</span><span class="n">FR_profile</span><span class="p">);</span>
+</pre></div>
+</div>
 </li>
-<li><p>Quit:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span><span class="n">quit</span>
+<li><p><strong>Example query:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">select</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">favorite_city</span>
+<span class="k">from</span><span class="w"> </span><span class="n">Python</span><span class="o">-</span><span class="n">OC</span><span class="o">-</span><span class="n">Lettings</span><span class="o">-</span><span class="n">FR_profile</span>
+<span class="k">where</span><span class="w"> </span><span class="n">favorite_city</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;B%&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Quit:</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="n">quit</span>
 </pre></div>
 </div>
 </li>
