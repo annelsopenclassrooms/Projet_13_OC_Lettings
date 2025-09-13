@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deployment &mdash; OC Lettings Site 1.0 documentation</title>
+  <title>Quickstart Guide &mdash; OC Lettings Site 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Usage" href="usage.html" /> 
+    <link rel="next" title="Technologies Used" href="technologies.html" />
+    <link rel="prev" title="Installation Instructions" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,15 +46,17 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="project_description.html">Project Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Instructions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#admin-panel">Admin Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linting">Linting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#unit-tests">Unit Tests</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="technologies.html">Technologies Used</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#steps">Steps</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 </ul>
 
         </div>
@@ -70,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Deployment</li>
+      <li class="breadcrumb-item active">Quickstart Guide</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/deployment.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -80,30 +83,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="deployment">
-<h1>Deployment<a class="headerlink" href="#deployment" title="Link to this heading"></a></h1>
-<p>The application can be deployed using:</p>
-<ul class="simple">
-<li><p>Docker</p></li>
-<li><p>Render</p></li>
-<li><p>Google Cloud Run</p></li>
-<li><p>GitHub Actions CI/CD pipeline</p></li>
-</ul>
-<section id="steps">
-<h2>Steps<a class="headerlink" href="#steps" title="Link to this heading"></a></h2>
+  <section id="quickstart-guide">
+<h1>Quickstart Guide<a class="headerlink" href="#quickstart-guide" title="Link to this heading"></a></h1>
 <ol class="arabic">
-<li><p><strong>Build the Docker image:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>oc-lettings<span class="w"> </span>.
-</pre></div>
-</div>
+<li><p>Start the development server:</p>
+<p>cd /path/to/Python-OC-Lettings-FR
+source venv/bin/activate
+python manage.py runserver</p>
 </li>
-<li><p><strong>Run locally with Docker:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>oc-lettings
-</pre></div>
-</div>
-</li>
-<li><p><strong>Deploy to your preferred cloud provider</strong> (Render, GCP, or others).</p></li>
+<li><p>Open your browser at: <a class="reference external" href="http://localhost:8000">http://localhost:8000</a></p></li>
+<li><p>Confirm the website is working and navigation is possible.
+You should see several profiles and lettings.</p></li>
 </ol>
+<section id="admin-panel">
+<h2>Admin Panel<a class="headerlink" href="#admin-panel" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Visit: <a class="reference external" href="http://localhost:8000/admin">http://localhost:8000/admin</a></p></li>
+<li><p>Login:
+Username: <code class="docutils literal notranslate"><span class="pre">admin</span></code>
+Password: <code class="docutils literal notranslate"><span class="pre">Abc1234!</span></code></p></li>
+</ul>
+</section>
+<section id="linting">
+<h2>Linting<a class="headerlink" href="#linting" title="Link to this heading"></a></h2>
+<p>Run Flake8 to check code style:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flake8</span>
+</pre></div>
+</div>
+</section>
+<section id="unit-tests">
+<h2>Unit Tests<a class="headerlink" href="#unit-tests" title="Link to this heading"></a></h2>
+<p>Run pytest to execute the test suite:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -111,7 +124,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation Instructions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="technologies.html" class="btn btn-neutral float-right" title="Technologies Used" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

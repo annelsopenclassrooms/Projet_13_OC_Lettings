@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; OC Lettings Site 1.0 documentation</title>
+  <title>Installation Instructions &mdash; OC Lettings Site 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Usage" href="usage.html" />
-    <link rel="prev" title="Orange County Lettings Documentation" href="index.html" /> 
+    <link rel="next" title="Quickstart Guide" href="quickstart.html" />
+    <link rel="prev" title="Project Description" href="project_description.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,9 +44,18 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_description.html">Project Description</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#on-macos-linux">On macOS / Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#on-windows">On Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technologies.html">Technologies Used</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 </ul>
 
@@ -64,7 +73,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Installation</li>
+      <li class="breadcrumb-item active">Installation Instructions</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -74,16 +83,75 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+  <section id="installation-instructions">
+<h1>Installation Instructions<a class="headerlink" href="#installation-instructions" title="Link to this heading"></a></h1>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>GitHub account with read access to this repository</p></li>
+<li><p>Git CLI</p></li>
+<li><p>SQLite3 CLI</p></li>
+<li><p>Python interpreter, version 3.6 or higher</p></li>
+</ul>
+</section>
+<section id="on-macos-linux">
+<h2>On macOS / Linux<a class="headerlink" href="#on-macos-linux" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Clone the repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>cd /path/to/put/project/in
+git clone <a class="reference external" href="https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.git">https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.git</a></p>
+</div></blockquote>
+</li>
+<li><p>Create and activate a virtual environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>cd /path/to/Python-OC-Lettings-FR
+python -m venv venv
+source venv/bin/activate</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Ubuntu, you may need to install venv first:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-venv
+</pre></div>
+</div>
+</div>
+</li>
+<li><p>Install dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>pip install –requirement requirements.txt</p>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="on-windows">
+<h2>On Windows<a class="headerlink" href="#on-windows" title="Link to this heading"></a></h2>
+<p>Using PowerShell:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">.\</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">&lt;my-command&gt;</span></code> with:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">Get-Command</span> <span class="p">&lt;</span><span class="n">my-command</span><span class="p">&gt;).</span><span class="n">Path</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Orange County Lettings Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="project_description.html" class="btn btn-neutral float-left" title="Project Description" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quickstart Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -8,7 +8,11 @@ Welcome to the documentation of the Orange County Lettings project.
    :caption: Contents:
 
 
+   project_description
    installation
-   usage
+   quickstart
+   technologies
+   database
    modules
+   usage
    deployment
