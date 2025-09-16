@@ -12,7 +12,7 @@ load_dotenv()
 
 # Get Sentry DSN from environment variable
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
-DEBUG = os.getenv("DEBUG") == "True"
+
 
 print(f"SENTRY_DSN={SENTRY_DSN}")
 
@@ -32,10 +32,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+#DEBUG IS SET IN .env FILE
+DEBUG = os.getenv('DEBUG', "False") == "True"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -72,6 +73,9 @@ if DEBUG:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
 
 # During tests, override storage to avoid "Missing staticfiles manifest" errors
 if "test" in sys.argv:
