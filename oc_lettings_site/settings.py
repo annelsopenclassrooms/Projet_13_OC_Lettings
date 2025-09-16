@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG IS SET IN .env FILE
+# DEBUG IS SET IN .env FILE
 DEBUG = os.getenv('DEBUG', "False") == "True"
 
 ALLOWED_HOSTS = [
@@ -73,9 +73,6 @@ if DEBUG:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
-
 
 # During tests, override storage to avoid "Missing staticfiles manifest" errors
 if "test" in sys.argv:
