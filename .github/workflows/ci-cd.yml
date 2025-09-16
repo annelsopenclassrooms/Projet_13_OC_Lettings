@@ -40,7 +40,7 @@ jobs:
       - name: Collect static files
         run: |
           source venv/bin/activate
-          python manage.py collectstatic --noinput || echo "Warning: collectstatic failed but continue"
+          python manage.py collectstatic --noinput
 
       - name: Lint with flake8
         run: |
