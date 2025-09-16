@@ -75,7 +75,7 @@ else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # During tests, override storage to avoid "Missing staticfiles manifest" errors
-if "test" in sys.argv:
+if "test" in sys.argv or os.getenv("CI"):
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 ROOT_URLCONF = 'oc_lettings_site.urls'
