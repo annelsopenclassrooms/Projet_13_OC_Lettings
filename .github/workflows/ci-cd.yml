@@ -18,6 +18,9 @@ jobs:
     env:
       DEBUG: 'False'  # simulate production
       DJANGO_SETTINGS_MODULE: oc_lettings_site.settings
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -48,7 +51,7 @@ jobs:
         run: |
           source venv/bin/activate
           python manage.py migrate
-          pytest --cov=. --cov-fail-under=80 || exit 1
+          pytest --cov=. --cov-fail-under=80
 
   # 2. Docker build and push (only if tests pass)
   docker-build:
