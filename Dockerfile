@@ -14,7 +14,7 @@ COPY . .
 # Create staticfiles directory and set permissions
 RUN mkdir -p /app/staticfiles && chmod -R 755 /app/staticfiles
 # Collect Django static files
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
 # Expose the port Django will run on
 EXPOSE 8000
 # Default command to run the Django app with Gunicorn
