@@ -37,10 +37,6 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Collect static files
-        run: |
-          source venv/bin/activate
-          python manage.py collectstatic --noinput
 
       - name: Lint with flake8
         run: |
