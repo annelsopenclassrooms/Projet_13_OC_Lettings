@@ -1,109 +1,151 @@
-Deployment
-==========
+Deployment and Production Management
+===================================
 
-The application can be deployed using:
+This section explains how to deploy and manage the OC Lettings application in a production environment.
+It covers the CI/CD pipeline, Docker, Render deployment, and environment secrets.
 
-- Docker
-- Render
-- Google Cloud Run
-- GitHub Actions CI/CD pipeline
+CI/CD Pipeline
+--------------
 
-Steps
------
-
-1. **Build the Docker image:**
-
-   .. code-block:: bash
-
-      docker build -t oc-lettings .
-
-2. **Run locally with Docker:**
-
-   .. code-block:: bash
-
-      docker run -p 8000:8000 oc-lettings
-
-3. **Deploy to your preferred cloud provider** (Render, GCP, or others).
-Deployment
-==========
-
-This section describes how the CI/CD pipeline and deployment of the OC Lettings project is structured. 
-The documentation is intended to allow your successor to deploy the site without any issues.
-
-CI/CD Pipeline Overview
------------------------
-
-The pipeline consists of **three main jobs**:
+The CI/CD pipeline is composed of three main jobs:
 
 1. **Build and Test**
-
    - Reproduces the local development environment.
-   - Executes linting using ``flake8``.
-   - Runs the test suite using ``pytest``.
-   - Checks that test coverage is above 80%.
+   - Installs dependencies and runs linting with `flake8`.
+   - Runs the test suite with `pytest`.
+   - Checks that code coverage is above 80%.
+   - Only successful tests allow the next steps to execute.
 
-2. **Containerization**
-
-   - Builds a Docker image of the site.
+2. **Docker Build and Push**
+   - Builds a Docker image of the application.
+   - Tags the image with the commit SHA and `latest`.
    - Pushes the image to Docker Hub.
-   - Tags the image with a distinct label (e.g., the commit hash).
-   - Allows running the site locally using the Docker image.
-   - Provides a single command to build, tag, and run the image locally.
+   - This step runs **only if tests pass** and only on the `master` branch.
 
 3. **Deployment**
+   - Pulls the Docker image from Docker Hub.
+   - Deploys the application on Render using the linked Docker repository.
+   - This step runs **only if the Docker build succeeds** and only on the `master` branch.
 
-   - Deploys the site to the chosen hosting provider (Render, AWS WebApp, Azure, etc.).
-   - Triggered **only** for commits pushed to the ``master`` branch.
-   - The deployment job runs only if the containerization job succeeds.
-   - Branches other than ``master`` only trigger the build and test jobs (no deployment or containerization).
+GitHub Actions Example
+^^^^^^^^^^^^^^^^^^^^^
 
-Deployment Requirements
------------------------
+.. code-block:: yaml
 
-- Docker and Docker Hub account.
-- Access to the chosen hosting provider (e.g., Render account).
-- Environment variables set correctly (e.g., ``SECRET_KEY``, ``SENTRY_DSN``, database credentials).
-- Static files correctly collected and available in ``STATIC_ROOT``.
-- The production Django settings (``DEBUG=False``, ``ALLOWED_HOSTS`` configured for the domain).
+    name: CI/CD Pipeline
 
-Deployment Steps
-----------------
+    on:
+      push:
+        branches:
+          - master
+          - dev
+      pull_request:
+        branches:
+          - master
+          - dev
 
-1. **Trigger the pipeline**
+    jobs:
+      # Build and Test job
+      build-and-test:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+          - uses: actions/setup-python@v4
+            with:
+              python-version: 3.12
+          - run: |
+              python -m venv venv
+              source venv/bin/activate
+              pip install --upgrade pip
+              pip install -r requirements.txt
+          - run: |
+              source venv/bin/activate
+              flake8 .
+          - run: |
+              source venv/bin/activate
+              python manage.py migrate
+              pytest --cov=. --cov-fail-under=80
 
-   - Push changes to the ``master`` branch on GitHub.
-   - GitHub Actions automatically triggers the pipeline.
+      # Docker Build job
+      docker-build:
+        needs: build-and-test
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/master'
+        steps:
+          - uses: actions/checkout@v3
+          - uses: docker/login-action@v2
+            with:
+              username: ${{ secrets.DOCKER_USERNAME }}
+              password: ${{ secrets.DOCKER_PASSWORD }}
+          - run: |
+              docker build -t ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:${{ github.sha }} .
+              docker tag ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:latest
+              docker push ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:${{ github.sha }}
+              docker push ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:latest
 
-2. **Build and Test**
+      # Deployment job
+      deploy:
+        needs: docker-build
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/master'
+        steps:
+          - uses: actions/checkout@v3
+          - run: |
+              docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+              docker pull ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:latest
+              echo "Deploying to Render via linked Docker Hub repository."
 
-   - The pipeline reproduces the local environment.
-   - Runs linting: ``flake8``.
-   - Runs tests: ``pytest``.
-   - Checks coverage (>80%).
-   - If any of these steps fail, the pipeline stops.
+Environment Variables and Secrets
+---------------------------------
 
-3. **Containerization**
+The CI/CD pipeline and production environment rely on several **secrets**. Never commit these values to the repository.
 
-   - If build and tests succeed, a Docker image is created and tagged with the commit hash.
-   - The image is pushed to Docker Hub.
-   - The image can be pulled locally using::
+**List of Secrets**
 
-       docker pull <docker-username>/oc-lettings:<commit-hash>
-       docker run -p 8000:8000 <docker-username>/oc-lettings:<commit-hash>
+- **SECRET_KEY**
+  - Django secret key used for sessions, CSRF, and password hashing.
+- **SENTRY_DSN**
+  - Sentry Data Source Name for error logging and monitoring.
+- **ALLOWED_HOSTS**
+  - List of hosts allowed to serve the Django application.
+- **DOCKER_USERNAME**
+  - Docker Hub account username.
+- **DOCKER_PASSWORD**
+  - Docker Hub access token or password.
 
-   - Verify the site runs locally in Docker.
+**Configuration**
 
-4. **Production Deployment**
+- **GitHub Actions**
+  - Go to **Repository → Settings → Secrets and variables → Actions**.
+  - Add the secrets listed above.
+- **Render**
+  - Go to your Render web service → Environment tab.
+  - Add the secrets as environment variables.
+  - Redeploy the service.
 
-   - Only executes if containerization succeeds.
-   - The hosting provider (e.g., Render) pulls the latest Docker image from Docker Hub.
-   - The site is deployed with environment variables configured in the hosting dashboard.
-   - Verify static files and templates load correctly.
-   - Confirm that the admin interface is fully functional and styled correctly.
+Best Practices
+^^^^^^^^^^^^^
 
-Notes
------
+- Never hardcode secrets in your code.
+- Use different secrets for development, staging, and production.
+- Rotate secrets if compromised.
+- Use `.env` with `python-dotenv` for local development.
 
-- All sensitive data (Sentry DSN, SECRET_KEY, database credentials) must **not** be stored in code; always use environment variables.
-- The deployed site must visually match the local environment.
-- The successor should be able to redeploy or rollback using the same pipeline without additional troubleshooting.
+Static Files
+------------
+
+- The production server uses **Whitenoise** to serve static files.
+- Run ``python manage.py collectstatic`` before deployment.
+- Make sure all assets referenced in CSS/JS exist in the `static` folder.
+
+Production Settings Checklist
+-----------------------------
+
+- `DEBUG = False`
+- `SECRET_KEY` set via environment variable
+- `ALLOWED_HOSTS` includes the production domain
+- Sentry DSN configured
+- Static files collected
+- Docker image tested locally
+- CI/CD pipeline passing all tests
+
