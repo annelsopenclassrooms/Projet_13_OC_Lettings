@@ -13,9 +13,6 @@ load_dotenv()
 # Get Sentry DSN from environment variable
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
 
-
-print(f"SENTRY_DSN={SENTRY_DSN}")
-
 if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
@@ -38,12 +35,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # DEBUG IS SET IN .env FILE
 DEBUG = os.getenv('DEBUG', "False") == "True"
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "projet-13-oc-lettings.onrender.com",
-]
-
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 # Application definition
 
