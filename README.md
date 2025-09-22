@@ -81,13 +81,14 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 ### Récapitulatif du fonctionnement
 
-Le déploiement est automatisé via **GitHub Actions** :  
+Le déploiement utilise **GitHub Actions** et **Render** :  
 1. Lancement des tests (`flake8`, `pytest`) avec couverture minimale de 80 %.  
 2. Construction et push d’une image Docker sur **Docker Hub**.  
-3. Déploiement automatique sur **Render**, basé sur l’image Docker.  
+3. Déploiement sur Render basé sur l’image Docker.  
 
-👉 Seules les modifications poussées sur la branche **master** déclenchent la conteneurisation et le déploiement.  
-👉 Les autres branches (ex: `dev`) ne déclenchent que les tests et linting.
+Seules les modifications poussées sur la branche **master** déclenchent la conteneurisation.  
+Le déploiement sur Render est déclenché manuellement après la construction de l’image Docker.  
+Les autres branches (ex: `dev`) ne déclenchent que les tests et linting.
 
 ### Configuration requise
 
@@ -110,11 +111,14 @@ Le déploiement est automatisé via **GitHub Actions** :
 1. Pousser vos modifications sur la branche **master**.  
 2. Vérifier dans l’onglet **Actions** de GitHub :  
    - Tests réussis  
-   - Image Docker construite et poussée  
-   - Déploiement effectué sur Render  
-3. Aller sur le dashboard **Render** et tester l’URL de production.  
+   - Image Docker construite et poussée sur Docker Hub  
+3. Déclencher manuellement le déploiement depuis le dashboard **Render**.  
+4. Vérifier que le service a redémarré et tester l’URL de production.  
 
 ### Bonnes pratiques
 
 - Ne jamais committer de secrets dans le code.  
 - Utiliser `.env` et `python-dotenv` en local.  
+- Vérifier les fichiers statiques avec :  
+  ```bash
+  python manage.py collectstatic
