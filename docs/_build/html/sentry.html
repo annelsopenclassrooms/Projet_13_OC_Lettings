@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoring and Error Tracking with Sentry &mdash; OC Lettings Site 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modules" href="modules.html" />
+    <link rel="prev" title="Database Structure" href="database.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OC Lettings Site
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="project_description.html">Project Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technologies.html">Technologies Used</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database Structure</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Monitoring and Error Tracking with Sentry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#steps-to-integrate-sentry">Steps to Integrate Sentry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-sentry-sdk">1. Install Sentry SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-sentry">2. Configure Sentry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-logging">3. Configure Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#insert-logs">4. Insert Logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-notes">Deployment Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment and Production Management</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OC Lettings Site</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Monitoring and Error Tracking with Sentry</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sentry.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="monitoring-and-error-tracking-with-sentry">
+<h1>Monitoring and Error Tracking with Sentry<a class="headerlink" href="#monitoring-and-error-tracking-with-sentry" title="Link to this heading"></a></h1>
+<p>To improve observability and error tracking, this project integrates with
+<a class="reference external" href="https://sentry.io">Sentry</a>. The integration captures unexpected exceptions,
+performance issues, and custom logs.</p>
+<p>This guide explains how to install, configure, and use Sentry for monitoring.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Never store secrets or sensitive information in the codebase.</strong>
+Use environment variables instead.</p>
+</div>
+<section id="steps-to-integrate-sentry">
+<h2>Steps to Integrate Sentry<a class="headerlink" href="#steps-to-integrate-sentry" title="Link to this heading"></a></h2>
+<section id="install-sentry-sdk">
+<h3>1. Install Sentry SDK<a class="headerlink" href="#install-sentry-sdk" title="Link to this heading"></a></h3>
+<p>In your virtual environment, install the Sentry SDK for Django:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="s2">&quot;sentry-sdk[django]&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-sentry">
+<h3>2. Configure Sentry<a class="headerlink" href="#configure-sentry" title="Link to this heading"></a></h3>
+<p>Open <code class="docutils literal notranslate"><span class="pre">oc_lettings_site/settings.py</span></code> and add the following configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sentry_sdk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sentry_sdk.integrations.django</span><span class="w"> </span><span class="kn">import</span> <span class="n">DjangoIntegration</span>
+
+<span class="n">SENTRY_DSN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SENTRY_DSN&quot;</span><span class="p">)</span>  <span class="c1"># retrieved from environment variables</span>
+
+<span class="n">sentry_sdk</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
+    <span class="n">dsn</span><span class="o">=</span><span class="n">SENTRY_DSN</span><span class="p">,</span>
+    <span class="n">integrations</span><span class="o">=</span><span class="p">[</span><span class="n">DjangoIntegration</span><span class="p">()],</span>
+    <span class="n">traces_sample_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>   <span class="c1"># adjust depending on project requirements</span>
+    <span class="n">send_default_pii</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">SENTRY_DSN</span></code> variable in your <code class="docutils literal notranslate"><span class="pre">.env</span></code> file (never commit this file):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SENTRY_DSN</span><span class="o">=</span><span class="n">https</span><span class="p">:</span><span class="o">//&lt;</span><span class="n">your</span><span class="o">-</span><span class="n">key</span><span class="o">&gt;</span><span class="nd">@oXXXX</span><span class="o">.</span><span class="n">ingest</span><span class="o">.</span><span class="n">sentry</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">YYYY</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This project uses <code class="docutils literal notranslate"><span class="pre">python-dotenv</span></code> to load environment variables from a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.
+Make sure to install it in your virtual environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">dotenv</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="configure-logging">
+<h3>3. Configure Logging<a class="headerlink" href="#configure-logging" title="Link to this heading"></a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">oc_lettings_site/settings.py</span></code>, configure Django’s logging system to use
+Python’s built-in logging module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOGGING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;disable_existing_loggers&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;console&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;logging.StreamHandler&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;root&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;console&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;loggers&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;django&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;console&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;propagate&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;oc_lettings_site&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;console&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;propagate&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This ensures that logs are written to the console (and captured by Render, Docker, or
+any logging aggregator).</p>
+</section>
+<section id="insert-logs">
+<h3>4. Insert Logs<a class="headerlink" href="#insert-logs" title="Link to this heading"></a></h3>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">logging</span></code> module in your code at strategic points:</p>
+<ul class="simple">
+<li><p>Inside critical functions</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">try/except</span></code> blocks</p></li>
+<li><p>For input validation failures</p></li>
+</ul>
+<p>Example (views.py):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">letting</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">letting_id</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">letting_obj</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Letting</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">letting_id</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Letting </span><span class="si">%s</span><span class="s2"> retrieved successfully&quot;</span><span class="p">,</span> <span class="n">letting_id</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">letting_obj</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">letting_obj</span><span class="o">.</span><span class="n">address</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;lettings/letting.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unexpected error retrieving letting </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">letting_id</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="n">sentry_sdk</span><span class="o">.</span><span class="n">capture_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">raise</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deployment-notes">
+<h2>Deployment Notes<a class="headerlink" href="#deployment-notes" title="Link to this heading"></a></h2>
+<p>When deploying to a new environment:</p>
+<ol class="arabic">
+<li><p>Add the <code class="docutils literal notranslate"><span class="pre">SENTRY_DSN</span></code> variable to the environment (e.g., <code class="docutils literal notranslate"><span class="pre">.env</span></code>, Docker secrets, or Render environment variables).</p></li>
+<li><p>Ensure the logging configuration is applied (<code class="docutils literal notranslate"><span class="pre">settings.py</span></code>).</p></li>
+<li><p>Check that logs appear both in the console and in Sentry.</p></li>
+<li><p>Run a test error by forcing an exception locally:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Sentry test error&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Verify it appears in the Sentry dashboard.</p>
+</li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="database.html" class="btn btn-neutral float-left" title="Database Structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Anne LS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

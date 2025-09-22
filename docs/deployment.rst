@@ -1,5 +1,5 @@
 Deployment and Production Management
-===================================
+====================================
 
 This section explains how to deploy and manage the OC Lettings application in a production environment.
 It covers the CI/CD pipeline, Docker, Render deployment, and environment secrets.
@@ -28,7 +28,7 @@ The CI/CD pipeline is composed of three main jobs:
    - This step runs **only if the Docker build succeeds** and only on the `master` branch.
 
 GitHub Actions Example
-^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -124,7 +124,7 @@ The CI/CD pipeline and production environment rely on several **secrets**. Never
   - Redeploy the service.
 
 Best Practices
-^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
 - Never hardcode secrets in your code.
 - Use different secrets for development, staging, and production.

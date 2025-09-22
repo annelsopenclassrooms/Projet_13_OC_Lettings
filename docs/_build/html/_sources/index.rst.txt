@@ -13,6 +13,7 @@ Welcome to the documentation of the Orange County Lettings project.
    quickstart
    technologies
    database
+   sentry
    modules
    usage
    deployment

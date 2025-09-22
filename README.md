@@ -76,4 +76,45 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
 
-pour le commit
+
+## Déploiement
+
+### Récapitulatif du fonctionnement
+
+Le déploiement est automatisé via **GitHub Actions** :  
+1. Lancement des tests (`flake8`, `pytest`) avec couverture minimale de 80 %.  
+2. Construction et push d’une image Docker sur **Docker Hub**.  
+3. Déploiement automatique sur **Render**, basé sur l’image Docker.  
+
+👉 Seules les modifications poussées sur la branche **master** déclenchent la conteneurisation et le déploiement.  
+👉 Les autres branches (ex: `dev`) ne déclenchent que les tests et linting.
+
+### Configuration requise
+
+#### Secrets GitHub Actions
+À définir dans **Repository → Settings → Secrets and variables → Actions** :
+- `SECRET_KEY` : clé secrète Django  
+- `SENTRY_DSN` : identifiant de Sentry  
+- `ALLOWED_HOSTS` : domaines autorisés  
+- `DOCKER_USERNAME` : identifiant Docker Hub  
+- `DOCKER_PASSWORD` : mot de passe ou token Docker Hub  
+
+#### Variables d’environnement Render
+À définir dans l’onglet **Environment** du service Render :
+- `SECRET_KEY`  
+- `SENTRY_DSN`  
+- `ALLOWED_HOSTS`  
+
+### Étapes de déploiement
+
+1. Pousser vos modifications sur la branche **master**.  
+2. Vérifier dans l’onglet **Actions** de GitHub :  
+   - Tests réussis  
+   - Image Docker construite et poussée  
+   - Déploiement effectué sur Render  
+3. Aller sur le dashboard **Render** et tester l’URL de production.  
+
+### Bonnes pratiques
+
+- Ne jamais committer de secrets dans le code.  
+- Utiliser `.env` et `python-dotenv` en local.  

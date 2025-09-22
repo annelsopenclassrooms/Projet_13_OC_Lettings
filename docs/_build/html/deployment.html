@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deployment &mdash; OC Lettings Site 1.0 documentation</title>
+  <title>Deployment and Production Management &mdash; OC Lettings Site 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Usage" href="usage.html" /> 
+    <link rel="prev" title="Usage Guide" href="usage.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,10 +48,20 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="technologies.html">Technologies Used</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentry.html">Monitoring and Error Tracking with Sentry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#steps">Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment and Production Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ci-cd-pipeline">CI/CD Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#github-actions-example">GitHub Actions Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables-and-secrets">Environment Variables and Secrets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#static-files">Static Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#production-settings-checklist">Production Settings Checklist</a></li>
 </ul>
 </li>
 </ul>
@@ -70,7 +80,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Deployment</li>
+      <li class="breadcrumb-item active">Deployment and Production Management</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/deployment.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -80,30 +90,153 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="deployment">
-<h1>Deployment<a class="headerlink" href="#deployment" title="Link to this heading"></a></h1>
-<p>The application can be deployed using:</p>
-<ul class="simple">
-<li><p>Docker</p></li>
-<li><p>Render</p></li>
-<li><p>Google Cloud Run</p></li>
-<li><p>GitHub Actions CI/CD pipeline</p></li>
-</ul>
-<section id="steps">
-<h2>Steps<a class="headerlink" href="#steps" title="Link to this heading"></a></h2>
-<ol class="arabic">
-<li><p><strong>Build the Docker image:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>oc-lettings<span class="w"> </span>.
-</pre></div>
-</div>
-</li>
-<li><p><strong>Run locally with Docker:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>oc-lettings
-</pre></div>
-</div>
-</li>
-<li><p><strong>Deploy to your preferred cloud provider</strong> (Render, GCP, or others).</p></li>
+  <section id="deployment-and-production-management">
+<h1>Deployment and Production Management<a class="headerlink" href="#deployment-and-production-management" title="Link to this heading"></a></h1>
+<p>This section explains how to deploy and manage the OC Lettings application in a production environment.
+It covers the CI/CD pipeline, Docker, Render deployment, and environment secrets.</p>
+<section id="ci-cd-pipeline">
+<h2>CI/CD Pipeline<a class="headerlink" href="#ci-cd-pipeline" title="Link to this heading"></a></h2>
+<p>The CI/CD pipeline is composed of three main jobs:</p>
+<ol class="arabic simple">
+<li><p><strong>Build and Test</strong>
+- Reproduces the local development environment.
+- Installs dependencies and runs linting with <cite>flake8</cite>.
+- Runs the test suite with <cite>pytest</cite>.
+- Checks that code coverage is above 80%.
+- Only successful tests allow the next steps to execute.</p></li>
+<li><p><strong>Docker Build and Push</strong>
+- Builds a Docker image of the application.
+- Tags the image with the commit SHA and <cite>latest</cite>.
+- Pushes the image to Docker Hub.
+- This step runs <strong>only if tests pass</strong> and only on the <cite>master</cite> branch.</p></li>
+<li><p><strong>Deployment</strong>
+- Pulls the Docker image from Docker Hub.
+- Deploys the application on Render using the linked Docker repository.
+- This step runs <strong>only if the Docker build succeeds</strong> and only on the <cite>master</cite> branch.</p></li>
 </ol>
+<section id="github-actions-example">
+<h3>GitHub Actions Example<a class="headerlink" href="#github-actions-example" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI/CD Pipeline</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Build and Test job</span>
+<span class="w">  </span><span class="nt">build-and-test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.12</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">python -m venv venv</span>
+<span class="w">          </span><span class="no">source venv/bin/activate</span>
+<span class="w">          </span><span class="no">pip install --upgrade pip</span>
+<span class="w">          </span><span class="no">pip install -r requirements.txt</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">source venv/bin/activate</span>
+<span class="w">          </span><span class="no">flake8 .</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">source venv/bin/activate</span>
+<span class="w">          </span><span class="no">python manage.py migrate</span>
+<span class="w">          </span><span class="no">pytest --cov=. --cov-fail-under=80</span>
+
+<span class="w">  </span><span class="c1"># Docker Build job</span>
+<span class="w">  </span><span class="nt">docker-build</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build-and-test</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/master&#39;</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/login-action@v2</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.DOCKER_USERNAME }}</span>
+<span class="w">          </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.DOCKER_PASSWORD }}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">docker build -t ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:${{ github.sha }} .</span>
+<span class="w">          </span><span class="no">docker tag ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:latest</span>
+<span class="w">          </span><span class="no">docker push ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:${{ github.sha }}</span>
+<span class="w">          </span><span class="no">docker push ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:latest</span>
+
+<span class="w">  </span><span class="c1"># Deployment job</span>
+<span class="w">  </span><span class="nt">deploy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker-build</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/master&#39;</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}</span>
+<span class="w">          </span><span class="no">docker pull ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:latest</span>
+<span class="w">          </span><span class="no">echo &quot;Deploying to Render via linked Docker Hub repository.&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="environment-variables-and-secrets">
+<h2>Environment Variables and Secrets<a class="headerlink" href="#environment-variables-and-secrets" title="Link to this heading"></a></h2>
+<p>The CI/CD pipeline and production environment rely on several <strong>secrets</strong>. Never commit these values to the repository.</p>
+<p><strong>List of Secrets</strong></p>
+<ul class="simple">
+<li><p><strong>SECRET_KEY</strong>
+- Django secret key used for sessions, CSRF, and password hashing.</p></li>
+<li><p><strong>SENTRY_DSN</strong>
+- Sentry Data Source Name for error logging and monitoring.</p></li>
+<li><p><strong>ALLOWED_HOSTS</strong>
+- List of hosts allowed to serve the Django application.</p></li>
+<li><p><strong>DOCKER_USERNAME</strong>
+- Docker Hub account username.</p></li>
+<li><p><strong>DOCKER_PASSWORD</strong>
+- Docker Hub access token or password.</p></li>
+</ul>
+<p><strong>Configuration</strong></p>
+<ul class="simple">
+<li><p><strong>GitHub Actions</strong>
+- Go to <strong>Repository → Settings → Secrets and variables → Actions</strong>.
+- Add the secrets listed above.</p></li>
+<li><p><strong>Render</strong>
+- Go to your Render web service → Environment tab.
+- Add the secrets as environment variables.
+- Redeploy the service.</p></li>
+</ul>
+<section id="best-practices">
+<h3>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Never hardcode secrets in your code.</p></li>
+<li><p>Use different secrets for development, staging, and production.</p></li>
+<li><p>Rotate secrets if compromised.</p></li>
+<li><p>Use <cite>.env</cite> with <cite>python-dotenv</cite> for local development.</p></li>
+</ul>
+</section>
+</section>
+<section id="static-files">
+<h2>Static Files<a class="headerlink" href="#static-files" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The production server uses <strong>Whitenoise</strong> to serve static files.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">collectstatic</span></code> before deployment.</p></li>
+<li><p>Make sure all assets referenced in CSS/JS exist in the <cite>static</cite> folder.</p></li>
+</ul>
+</section>
+<section id="production-settings-checklist">
+<h2>Production Settings Checklist<a class="headerlink" href="#production-settings-checklist" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><cite>DEBUG = False</cite></p></li>
+<li><p><cite>SECRET_KEY</cite> set via environment variable</p></li>
+<li><p><cite>ALLOWED_HOSTS</cite> includes the production domain</p></li>
+<li><p>Sentry DSN configured</p></li>
+<li><p>Static files collected</p></li>
+<li><p>Docker image tested locally</p></li>
+<li><p>CI/CD pipeline passing all tests</p></li>
+</ul>
 </section>
 </section>
 
@@ -111,7 +244,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-left" title="Usage Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
