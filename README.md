@@ -76,6 +76,79 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
 
+# Surveillance et journalisation avec Sentry
+
+Pour améliorer l’observabilité et le suivi des erreurs, le projet intègre **Sentry**. Cela permet de capturer automatiquement les exceptions inattendues, les problèmes de performance et les logs personnalisés.
+
+## Installation et configuration
+
+Dans l’environnement virtuel, installez Sentry et python-dotenv :
+
+```bash
+pip install "sentry-sdk[django]" python-dotenv
+```
+
+Dans `oc_lettings_site/settings.py` :
+
+```python
+import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+SENTRY_DSN = os.getenv("SENTRY_DSN")  # récupéré depuis les variables d'environnement
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+    )
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "root": {"handlers": ["console"], "level": "INFO"},
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "INFO", "propagate": True},
+        "oc_lettings_site": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
+    },
+}
+```
+
+Ajoutez la variable `SENTRY_DSN` dans votre fichier `.env` (ne jamais le committer) :
+
+```bash
+SENTRY_DSN=https://<votre-cle>@oXXXX.ingest.sentry.io/YYYY
+```
+
+## Bonnes pratiques
+
+- Utilisez le module `logging` dans les fonctions critiques et les blocs `try/except`.
+- En cas d’erreur, envoyez l’exception à Sentry avec :
+
+```python
+import sentry_sdk
+sentry_sdk.capture_exception(e)
+```
+
+- Vérifiez que les logs apparaissent à la fois dans la console et dans le dashboard Sentry.
+
+## Vérification
+
+Pour tester l’intégration, vous pouvez lever une exception manuellement :
+
+```python
+raise Exception("Test Sentry")
+```
+
+L’erreur doit ensuite apparaître dans l’interface Sentry.
+
+
+
 
 ## Déploiement
 
