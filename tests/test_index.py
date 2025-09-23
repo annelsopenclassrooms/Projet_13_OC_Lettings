@@ -8,6 +8,6 @@ def test_index_view(client):
     assert response.status_code == 200
     content = response.content.decode()
     assert "<h1" in content
-    assert "Welcome to OC" in content
+    assert "Welcome to Holiday Homes" in content
     assert reverse("profiles:index") in content
     assert reverse("lettings:index") in content
