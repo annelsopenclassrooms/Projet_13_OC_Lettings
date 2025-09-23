@@ -147,8 +147,22 @@ raise Exception("Test Sentry")
 
 L’erreur doit ensuite apparaître dans l’interface Sentry.
 
+## Politique de logs et Sentry
 
+- **Console** :
+  - Tous les logs à partir du niveau `INFO` sont affichés.
+  - Utile pour le suivi en local et la consultation des logs en production.
 
+- **Sentry** :
+  - Seuls les logs de niveau `ERROR` et `CRITICAL` sont envoyés.
+  - Capture automatiquement toutes les exceptions Django non gérées grâce à `DjangoIntegration`.
+  - Les informations personnelles minimales (PII), comme l’utilisateur connecté et l’adresse IP, sont incluses (`send_default_pii=True`).
+
+- **Applications** :
+  - `lettings` et `profiles` : logs à partir du niveau `INFO`.
+  - `django` : logs à partir du niveau `WARNING`.
+
+👉 En résumé : **tous les détails apparaissent dans la console, mais seuls les incidents critiques sont envoyés à Sentry**.
 
 ## Déploiement
 

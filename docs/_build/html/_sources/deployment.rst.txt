@@ -25,7 +25,7 @@ The CI/CD pipeline is composed of three main jobs:
 3. **Deployment**
    - Pulls the Docker image from Docker Hub.
    - Deploys the application on Render using the linked Docker repository.
-   - This step runs **only if the Docker build succeeds** and only on the `master` branch.
+   - **The deployment on Render is triggered manually after the Docker image is built and pushed.**
 
 GitHub Actions Example
 ^^^^^^^^^^^^^^^^^^^^^^

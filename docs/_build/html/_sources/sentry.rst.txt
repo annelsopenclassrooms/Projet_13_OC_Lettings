@@ -131,3 +131,20 @@ When deploying to a new environment:
 
    Verify it appears in the Sentry dashboard.
 
+Logging and Sentry Policy
+-------------------------
+
+- **Console**:
+  - Logs from level ``INFO`` and above are displayed.
+  - Useful for local debugging and production log monitoring.
+
+- **Sentry**:
+  - Only logs of level ``ERROR`` and ``CRITICAL`` are sent.
+  - Automatically captures unhandled Django exceptions through ``DjangoIntegration``.
+  - Minimal Personally Identifiable Information (PII), such as the logged-in user and IP address, is included (``send_default_pii=True``).
+
+- **Applications**:
+  - ``lettings`` and ``profiles``: logs from level ``INFO``.
+  - ``django``: logs from level ``WARNING``.
+
+👉 In summary: **detailed logs go to the console, while only critical incidents are sent to Sentry**.

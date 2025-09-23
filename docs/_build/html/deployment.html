@@ -112,7 +112,7 @@ It covers the CI/CD pipeline, Docker, Render deployment, and environment secrets
 <li><p><strong>Deployment</strong>
 - Pulls the Docker image from Docker Hub.
 - Deploys the application on Render using the linked Docker repository.
-- This step runs <strong>only if the Docker build succeeds</strong> and only on the <cite>master</cite> branch.</p></li>
+- <strong>The deployment on Render is triggered manually after the Docker image is built and pushed.</strong></p></li>
 </ol>
 <section id="github-actions-example">
 <h3>GitHub Actions Example<a class="headerlink" href="#github-actions-example" title="Link to this heading"></a></h3>
