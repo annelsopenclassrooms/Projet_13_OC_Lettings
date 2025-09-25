@@ -82,14 +82,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Pull Docker image
-        run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker pull ${{ secrets.DOCKER_USERNAME }}/oc-lettings-site:latest
-
       - name: Deploy to Render
         run: |
-          echo "Deploying to Render via linked Docker Hub repo."
+          echo "You can now deploy the image on render via linked Docker Hub repo."
